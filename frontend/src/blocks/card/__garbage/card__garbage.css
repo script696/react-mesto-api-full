@@ -1,0 +1,12 @@
+.card__garbage{
+  width: 18px;
+  height: 19px;
+  background: url('../../../img/logo/garbage.svg') center / cover no-repeat;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+}

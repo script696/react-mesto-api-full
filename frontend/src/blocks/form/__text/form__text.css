@@ -1,0 +1,27 @@
+.form__text {
+  width: 100%;
+  padding: 5px 0 5px 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+}
+/* .form__text:nth-child(2){
+  margin-bottom: 50px;
+} */
+
+.form__text::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+}
+
+/* @media screen and (max-width: 714px) {
+  .form__text:nth-child(2) {
+    margin-bottom: 43px;
+  }
+} */
+
+

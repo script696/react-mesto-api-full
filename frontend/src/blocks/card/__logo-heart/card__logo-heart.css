@@ -1,0 +1,11 @@
+.card__logo-heart {
+  width: 22px;
+  height: 19px;
+  cursor: pointer;
+  border: none;
+  background: url('../../../img/logo/heart.svg') center / cover no-repeat;
+}
+
+.card__logo-heart:hover {
+  opacity: .5;
+}

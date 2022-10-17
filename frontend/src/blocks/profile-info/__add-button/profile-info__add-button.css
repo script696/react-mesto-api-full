@@ -1,0 +1,16 @@
+.profile-info__add-button{
+  width: 100%;
+  min-height: 50px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  background: url("../../../img/logo/plus.svg") center / 22px no-repeat;
+  cursor: pointer;
+}
+.profile-info__add-button:hover{
+  opacity: .6;
+}
+@media screen and (max-width: 714px) {
+  .profile-info__add-button {
+    background: url("../../../img/logo/plus.svg") center / 16px no-repeat;
+  }
+}

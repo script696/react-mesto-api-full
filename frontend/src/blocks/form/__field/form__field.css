@@ -1,0 +1,11 @@
+.form__field{
+  position: relative;
+  display: block;
+}
+.form__field:nth-child(1){
+  margin: 0 0 30px 0;
+}
+
+.form__field:nth-child(2){
+  margin: 0 0 48px 0;
+}

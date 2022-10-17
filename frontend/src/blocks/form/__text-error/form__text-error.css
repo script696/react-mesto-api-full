@@ -1,0 +1,9 @@
+.form__text-error {
+  font-size: 12px;
+  line-height: 1.25;
+  color: #FF0000;
+  opacity: 1;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+}

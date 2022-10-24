@@ -118,7 +118,7 @@ module.exports.login = async (req, res, next) => {
     const matched = await bcrypt.compare(password, user.password);
     if (!matched) throw new AuthecationError("Неправильные почта или пароль");
     const token = jwt.sign({ _id: user._id }, "some-secret-key", { expiresIn: "7d" });
-    res.send({ data: token });
+    res.send({ token: token });
   } catch (err) {
     next(err);
   }

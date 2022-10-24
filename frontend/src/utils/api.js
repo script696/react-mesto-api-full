@@ -73,7 +73,7 @@ class Api {
 const api = new Api({
     id: 'api.script696.students.nomoredomains.icu',
     headers: {
-        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json'
     }
 });

@@ -1,6 +1,8 @@
 const allowedCors = [
   'https://script696.nomoredomains.icu',
   'http://script696.nomoredomains.icu',
+  'http://localhost:3000/',
+  'https://localhost:3000/',
 ];
 
 

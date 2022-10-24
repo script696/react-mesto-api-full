@@ -39,7 +39,7 @@ const Main = ({ onCardClick, cards, handleCardLike, confirmCardDelete, onHandleP
                         <Card
                             key={cardData._id}
                             id={cardData._id}
-                            owner={cardData.owner._id}
+                            owner={cardData.owner}
                             name={cardData.name}
                             link={cardData.link}
                             likes={cardData.likes}

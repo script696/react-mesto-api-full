@@ -142,9 +142,7 @@ const App = () => {
 
     const handleCardLike = async (likes, id) => {
         const isLiked = likes.some((i) => {
-            console.log(likes, i._id, currentUser._id)
-
-           return (i._id === currentUser._id)
+           return (i === currentUser._id)
         });
         const apiMethod = isLiked ? 'DELETE' : 'PUT';
         try {

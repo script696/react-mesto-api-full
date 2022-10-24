@@ -123,7 +123,7 @@ const App = () => {
     const handleUpdateUser = async ({ name, about }) => {
         try {
             let res = await api.modifyProfile(name, about);
-            setCurrentUser({ ...res });
+            setCurrentUser({ ...res.data });
             closeAllPopups();
         } catch (err) {
             console.error(err);
@@ -133,7 +133,7 @@ const App = () => {
     const handleUpdateAvatar = async (avatar) => {
         try {
             const res = await api.editAvatar(avatar);
-            setCurrentUser({ ...res });
+            setCurrentUser({ ...res.data });
             closeAllPopups();
         } catch (err) {
             console.error(err);
@@ -145,7 +145,7 @@ const App = () => {
         const apiMethod = isLiked ? 'DELETE' : 'PUT';
         try {
             const res = await api.toggleLike(id, apiMethod);
-            setCards((prev) => prev.map((c) => (c._id === id ? res : c)));
+            setCards((prev) => prev.map((c) => (c._id === id ? res.data : c)));
         } catch (err) {
             console.error(err);
         }

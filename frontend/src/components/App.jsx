@@ -142,6 +142,7 @@ const App = () => {
 
     const handleCardLike = async (likes, id) => {
         const isLiked = likes.some((i) => i._id === currentUser._id);
+        console.log(isLiked)
         const apiMethod = isLiked ? 'DELETE' : 'PUT';
         try {
             const res = await api.toggleLike(id, apiMethod);

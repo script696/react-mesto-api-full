@@ -142,7 +142,7 @@ const App = () => {
 
     const handleCardLike = async (likes, id) => {
         const isLiked = likes.some((i) => {
-            console.log(i._id, currentUser._id)
+            console.log(likes, i._id, currentUser._id)
 
            return (i._id === currentUser._id)
         });

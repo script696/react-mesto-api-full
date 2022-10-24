@@ -35,7 +35,7 @@ class Api {
     }
 
     addNewCard(name, link) {
-        return fetch(`${this._id}/cards`, {
+        return fetch(`http://api.script696.students.nomoredomains.icu/cards`, {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({

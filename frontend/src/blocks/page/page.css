@@ -2,12 +2,8 @@
   box-sizing: border-box;
   max-width: 918px;
   min-width: 320px;
-  min-height: 100vh;
   margin: auto;
   padding: 45px 0 60px 0;
-  font-family: "Inter", "Arial", sans-serif;
-  font-weight: 400;
-  color: #fff;
   display: flex;
   flex-direction: column;
   position: relative;

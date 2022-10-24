@@ -1,0 +1,13 @@
+.form__text_type_authentication {
+  background: none;
+  border-bottom: 2px solid #CCCCCC;
+  color: #CCCCCC;
+}
+
+
+
+.form__text_type_authentication::placeholder {
+  font-size: 14px;
+  line-height: 17px;
+  color: #CCCCCC;
+}

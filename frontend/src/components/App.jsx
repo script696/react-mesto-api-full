@@ -1,28 +1,40 @@
 import { useEffect, useState } from 'react';
-import api from '../utils/api';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { authorize } from '../utils/auth';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { getContent, register } from '../utils/auth';
+import api from '../utils/api';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmationPopup from './ConfirmationPopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
-import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
-import Main from './Main';
+import Login from './Login';
+import Register from './Register';
+import InfoTooltip from './InfoTooltip';
+import ProtectedRoute from './ProtectedRoute';
+import MainPage from './MainPage';
 
 const App = () => {
+    const history = useHistory();
+
     const [isPopupOpen, setIsPopupOpen] = useState({
         editProfilePopupOpen: false,
         addPlacePopupOpen: false,
         editAvatarPopupOpen: false,
         imageOpenPopupOpen: false,
-        confirmationPopupOpen: false
+        confirmationPopupOpen: false,
+        infoTooltipPopupOpen: false
     });
 
     const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
-    const [currentUser, setCurrentUser] = useState({ _id: '', name: '', about: '', avatar: '', cohort: '' });
+    const [currentUser, setCurrentUser] = useState({ _id: '', name: '', about: '', avatar: '', cohort: '', email: '' });
     const [cards, setCards] = useState(null);
     const [idCardDeleteConfirmation, setIdCardDeleteConfirmation] = useState('');
+
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [isLoginSuccess, setIsLoginSuccess] = useState(false);
 
     const closeAllPopups = () => {
         setSelectedCard({ name: '', link: '' });
@@ -38,17 +50,75 @@ const App = () => {
     };
 
     useEffect(() => {
-        const fetchInitialData = async () => {
+        if (loggedIn) {
+            (async () => {
+                try {
+                    const [userInfoData, initialCardsData] = await Promise.all([
+                        api.getUserInfo(),
+                        api.getInitialCards()
+                    ]);
+                    setCurrentUser((prev) => ({ ...prev, ...userInfoData }));
+                    setCards(() => [...initialCardsData]);
+                } catch (e) {
+                    console.error(e);
+                }
+            })();
+        }
+
+        (async () => {
+            const jwt = localStorage.getItem('jwt');
             try {
-                const [userInfoData, initialCardsData] = await Promise.all([api.getUserInfo(), api.getInitialCards()]);
-                setCurrentUser(() => ({ ...userInfoData }));
-                setCards(() => [...initialCardsData]);
-            } catch (err) {
-                console.error(err);
+                if (jwt) {
+                    const res = await getContent(jwt);
+                    const {
+                        data: { email }
+                    } = res;
+                    setCurrentUser((prev) => ({ ...prev, email: email }));
+                    setLoggedIn((prev) => (prev = true));
+                    history.push('/');
+                } else {
+                    return;
+                }
+            } catch (e) {
+                console.error(e);
             }
-        };
-        fetchInitialData();
-    }, []);
+        })();
+    }, [loggedIn]);
+
+    const handleLoginSubmit = async (e, email, password) => {
+        e.preventDefault();
+
+        try {
+            const res = await authorize(email, password);
+            if (res.token) {
+                localStorage.setItem('jwt', res.token);
+                setLoggedIn((prev) => (prev = true));
+                history.push('/');
+            }
+        } catch (e) {
+            setIsLoginSuccess(false);
+            setIsPopupOpen((prev) => ({ ...prev, infoTooltipPopupOpen: true }));
+        }
+    };
+
+    const handleRegistrarionSubmit = async (e, email, password) => {
+        e.preventDefault();
+
+        try {
+            const res = await register(email, password);
+            setIsLoginSuccess(true);
+
+            setIsPopupOpen((prev) => ({ ...prev, infoTooltipPopupOpen: true }));
+
+            setTimeout(() => {
+                history.push('/');
+                setIsPopupOpen((prev) => ({ ...prev, infoTooltipPopupOpen: false }));
+            }, 800);
+        } catch (e) {
+            setIsLoginSuccess(false);
+            setIsPopupOpen((prev) => ({ ...prev, infoTooltipPopupOpen: true }));
+        }
+    };
 
     const handleUpdateUser = async ({ name, about }) => {
         try {
@@ -108,42 +178,82 @@ const App = () => {
         }
     };
 
+    const redirectToRegistration = () => {
+        history.push('/sign-up');
+    };
+    const redirectToLogin = () => {
+        history.push('/sign-in');
+    };
+
+    const checkout = () => {
+        localStorage.removeItem('jwt');
+        history.push('/sign-in');
+    };
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
-            <section className="page">
-                <Header />
-                <Main
+            <Switch>
+                <ProtectedRoute
+                    path="/"
+                    exact
+                    component={MainPage}
+                    loggedIn={loggedIn}
                     onHandlePopup={setIsPopupOpen}
                     onCardClick={handleCardClick}
                     cards={cards}
                     handleCardLike={handleCardLike}
                     confirmCardDelete={confirmCardDelete}
+                    handleClick={checkout}
                 />
-                <Footer />
-                <EditProfilePopup
-                    isOpen={isPopupOpen.editProfilePopupOpen}
-                    onClose={closeAllPopups}
-                    onUpdateUser={handleUpdateUser}
-                />
+                <Route path="/sign-up" exact>
+                    <Header btnText="Войти" handleClick={redirectToLogin} />
+                    <section className="sign-up-in">
+                        <Register
+                            authType="Регистрация"
+                            btnText="Зарегестрироваться"
+                            onSubmit={handleRegistrarionSubmit}></Register>
+                    </section>
+                </Route>
 
-                <EditAvatarPopup
-                    isOpen={isPopupOpen.editAvatarPopupOpen}
-                    onClose={closeAllPopups}
-                    onUpdateAvatar={handleUpdateAvatar}
-                />
-                <AddPlacePopup
-                    isOpen={isPopupOpen.addPlacePopupOpen}
-                    onClose={closeAllPopups}
-                    onAddNewCard={handleAddPlace}
-                />
+                <Route path="/sign-in" exact>
+                    <Header btnText="Зарегестрироваться" handleClick={redirectToRegistration} />
+                    <section className="sign-up-in">
+                        <Login
+                            authType="Вход"
+                            btnText="Войти"
+                            setLoggedIn={setLoggedIn}
+                            onSubmit={handleLoginSubmit}></Login>
+                    </section>
+                </Route>
+            </Switch>
+            <EditProfilePopup
+                isOpen={isPopupOpen.editProfilePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateUser={handleUpdateUser}
+            />
 
-                <ImagePopup card={selectedCard} isOpen={isPopupOpen.imageOpenPopupOpen} onClose={closeAllPopups} />
-                <ConfirmationPopup
-                    isOpen={isPopupOpen.confirmationPopupOpen}
-                    onClose={closeAllPopups}
-                    onDeleteCard={handleCardDelete}
-                />
-            </section>
+            <EditAvatarPopup
+                isOpen={isPopupOpen.editAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onUpdateAvatar={handleUpdateAvatar}
+            />
+            <AddPlacePopup
+                isOpen={isPopupOpen.addPlacePopupOpen}
+                onClose={closeAllPopups}
+                onAddNewCard={handleAddPlace}
+            />
+
+            <ImagePopup card={selectedCard} isOpen={isPopupOpen.imageOpenPopupOpen} onClose={closeAllPopups} />
+            <ConfirmationPopup
+                isOpen={isPopupOpen.confirmationPopupOpen}
+                onClose={closeAllPopups}
+                onDeleteCard={handleCardDelete}
+            />
+            <InfoTooltip
+                onClose={closeAllPopups}
+                isOpen={isPopupOpen.infoTooltipPopupOpen}
+                isSuccess={isLoginSuccess}
+            />
         </CurrentUserContext.Provider>
     );
 };

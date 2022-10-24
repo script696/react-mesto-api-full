@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import Card from './Card';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import Header from './Header';
 
 const Main = ({ onCardClick, cards, handleCardLike, confirmCardDelete, onHandlePopup }) => {
     const { name, about, avatar } = useContext(CurrentUserContext);

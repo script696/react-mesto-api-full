@@ -1,0 +1,21 @@
+.sign-up-in__extra-container {
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.sign-up-in__extra-container p {
+  font-size: 14px;
+  line-height: 17px;
+  margin: 0;
+  color: #FFFFFF;
+}
+
+.sign-up-in__extra-container button {
+  border: none;
+  background: none;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+  cursor: pointer;
+}

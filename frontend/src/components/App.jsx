@@ -57,7 +57,7 @@ const App = () => {
                         api.getUserInfo(),
                         api.getInitialCards()
                     ]);
-                    setCurrentUser((prev) => ({ ...prev, ...userInfoData }));
+                    setCurrentUser((prev) => ({ ...prev, ...userInfoData.data }));
                     setCards(() => [...initialCardsData.data]);
                 } catch (e) {
                     console.error(e);

@@ -173,7 +173,7 @@ const App = () => {
     const handleAddPlace = async ({ name, link, setName, setLink }) => {
         try {
             const res = await api.addNewCard(name, link);
-            setCards((prev) => [...prev, res]);
+            setCards((prev) => [...prev, res.data]);
             closeAllPopups();
         } catch (err) {
             console.error(err);

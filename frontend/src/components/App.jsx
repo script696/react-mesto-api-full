@@ -30,7 +30,7 @@ const App = () => {
 
     const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
     const [currentUser, setCurrentUser] = useState({ _id: '', name: '', about: '', avatar: '', cohort: '', email: '' });
-    const [cards, setCards] = useState({});
+    const [cards, setCards] = useState([]);
     const [idCardDeleteConfirmation, setIdCardDeleteConfirmation] = useState('');
 
     const [loggedIn, setLoggedIn] = useState(false);

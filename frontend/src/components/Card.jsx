@@ -23,7 +23,7 @@ const Card = ({ id, link, name, likes, owner, onCardClick, onCardLike, onDelete 
                         type="button"
                         aria-label="Like"
                         className={cardLikeButtonClassName}></button>
-                    <p className="card__like-counter">{likes.length}</p>
+                    <p className="card__like-counter">{likes?.length}</p>
                 </div>
             </div>
             <button onClick={() => onDelete(id)} type="button" className={cardDeleteButtonClassName}></button>

@@ -3,7 +3,9 @@ class Api {
         this._id = id;
         this._headers = headers;
     }
-
+    _getToken(){
+     return localStorage.getItem('jwt')
+    }
     _getResponseData(res) {
         if (!res.ok) {
             return Promise.reject(`Ошибка: ${res.status}`);
@@ -13,13 +15,13 @@ class Api {
 
     getUserInfo() {
         return fetch(`${this._id}/users/me`, {
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`}
         }).then((res) => this._getResponseData(res));
     }
 
     getInitialCards() {
         return fetch(`${this._id}/cards`, {
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`}
         }).then((res) => this._getResponseData(res));
     }
 
@@ -73,7 +75,6 @@ class Api {
 const api = new Api({
     id: 'https://api.script696.students.nomoredomains.icu',
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json'
     }
 });

@@ -2,7 +2,8 @@
 logs
 *.log
 npm-debug.log*
-
+# IDE
+/.idea
 # Dependency directory
 node_modules
 

@@ -8,8 +8,7 @@ const Card = ({ id, link, name, likes, owner, onCardClick, onCardLike, onDelete 
     const cardDeleteButtonClassName = `card__garbage ${isOwn ? 'card__garbage_active' : 'card__garbage_inactive'}`;
 
     const isLiked = likes?.some((i) => {
-        console.log(i, userId)
-        return i._id === userId});
+        return i === userId});
     const cardLikeButtonClassName = `card__logo-heart ${
         isLiked ? 'card__logo-heart_style_filled' : 'card__logo-heart_style_unfilled'
     }`;

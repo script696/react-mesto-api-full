@@ -3,7 +3,7 @@ import useInput from '../custumHooks/useInput';
 import { useEffect } from 'react';
 
 const AddPlacePopup = ({ isOpen, onClose, onAddNewCard }) => {
-    const name = useInput('', { isEmpty: true, minLength: 3 });
+    const name = useInput('', { isEmpty: true, minLength: 2 });
     const link = useInput('', { isEmpty: true, isLink: true });
 
     const handleSubmit = (e) => {

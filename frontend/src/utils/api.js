@@ -28,7 +28,7 @@ class Api {
     modifyProfile(name, about) {
         return fetch(`${this._id}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`},
             body: JSON.stringify({
                 name,
                 about
@@ -39,7 +39,7 @@ class Api {
     addNewCard(name, link) {
         return fetch(`${this._id}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`},
             body: JSON.stringify({
                 name,
                 link
@@ -50,21 +50,21 @@ class Api {
     deleteCard(cardId) {
         return fetch(`${this._id}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`}
         }).then((res) => this._getResponseData(res));
     }
 
     toggleLike(cardId, method) {
         return fetch(`${this._id}/cards/${cardId}/likes`, {
             method: method,
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`}
         }).then((res) => this._getResponseData(res));
     }
 
     editAvatar(avatar) {
         return fetch(`${this._id}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${this._getToken()}`},
             body: JSON.stringify({
                 avatar
             })

@@ -4,8 +4,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import useInput from '../custumHooks/useInput';
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
-    const name = useInput('', { isEmpty: true, minLength: 3 });
-    const about = useInput('', { isEmpty: true, minLength: 3 });
+    const name = useInput('', { isEmpty: true, minLength: 2 });
+    const about = useInput('', { isEmpty: true, minLength: 2 });
 
     const currentUser = useContext(CurrentUserContext);
 

@@ -5,6 +5,7 @@ const BadRequest = require("../errors/bad-request");
 const AuthecationError = require("../errors/authecation-error");
 const NotFoundError = require("../errors/not-found-err");
 const ConflictError = require("../errors/conflict-error");
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = async (req, res, next) => {
@@ -118,8 +119,8 @@ module.exports.login = async (req, res, next) => {
     if (!user) throw new AuthecationError("Неправильные почта или пароль");
     const matched = await bcrypt.compare(password, user.password);
     if (!matched) throw new AuthecationError("Неправильные почта или пароль");
-    const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: "7d" });
-    res.send({ token: token });
+    const token = jwt.sign({ _id: user._id }, NODE_ENV === "production" ? JWT_SECRET : "dev-secret", { expiresIn: "7d" });
+    res.send({ token });
   } catch (err) {
     next(err);
   }
